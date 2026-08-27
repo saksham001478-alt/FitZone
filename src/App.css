@@ -1,0 +1,1144 @@
+/* ==========================================================================
+   Layout — sidebar is fixed, so NO grid needed. Main uses margin-left only.
+   ========================================================================== */
+.app-layout {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  background-color: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  height: 100vh;
+  z-index: 150;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar .logo {
+  padding: 18px 20px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 4px;
+}
+
+.sidebar .nav-link {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: var(--transition);
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.sidebar .nav-link.active {
+  background-color: rgba(13, 148, 136, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sidebar .nav-icon {
+  width: 22px;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  height: var(--navbar-height);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  z-index: 100;
+}
+
+html[data-theme='dark'] .navbar {
+  background-color: rgba(30, 41, 59, 0.85);
+}
+
+.navbar .brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--accent);
+  white-space: nowrap;
+  display: none;
+}
+
+.navbar .nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Main content — offset by sidebar width only */
+.main-content {
+  margin-left: var(--sidebar-width);
+  margin-top: var(--navbar-height);
+  padding: 28px 32px;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   Search Bar
+   ========================================================================== */
+.search-bar {
+  position: relative;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 9px 14px 9px 38px;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.search-bar input:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Dark Mode Toggle
+   ========================================================================== */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background-color: var(--bg-primary);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: var(--shadow);
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px;
+  transition: var(--transition);
+  animation: fadeIn 0.4s ease-out;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.stat-card .stat-info h3 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-card .stat-info p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* Plan Cards */
+.plan-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 22px;
+  text-align: center;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.plan-card.popular {
+  border-color: var(--accent);
+}
+
+.plan-card .popular-badge {
+  position: absolute;
+  top: 14px;
+  right: -30px;
+  background-color: var(--accent);
+  color: white;
+  padding: 4px 40px;
+  transform: rotate(45deg);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.plan-card .plan-price {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 14px 0;
+}
+
+.plan-card .plan-price span {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.plan-card .plan-features {
+  list-style: none;
+  text-align: left;
+  margin: 18px 0;
+  padding: 0;
+}
+
+.plan-card .plan-features li {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.plan-card .plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-card .plan-features li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(13, 148, 136, 0.1);
+}
+
+.btn-danger {
+  background-color: var(--coral);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #e11d48;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ==========================================================================
+   Attendance
+   ========================================================================== */
+.attendance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attendance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-sm);
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.attendance-item:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.attendance-item .member-info {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.attendance-item .member-info > div {
+  min-width: 0;
+}
+
+.attendance-item .member-info strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attendance-item .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.attendance-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-present {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.btn-present.active,
+.btn-present:hover {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-absent {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: var(--coral);
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.btn-absent.active,
+.btn-absent:hover {
+  background-color: var(--coral);
+  color: white;
+}
+
+/* ==========================================================================
+   Dashboard
+   ========================================================================== */
+.dashboard-welcome {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: white;
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-welcome h1 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-welcome p {
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.dashboard-welcome::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  right: -30px;
+  top: -30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  margin-bottom: 14px;
+}
+
+.section-title h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: flex-start;
+}
+
+.activity-item:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.activity-item strong {
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Members
+   ========================================================================== */
+.members-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.member-card {
+  position: relative;
+}
+
+.member-card:hover {
+  transform: translateY(-2px);
+}
+
+.member-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.member-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.member-email {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  gap: 8px;
+  align-items: center;
+}
+
+.detail-label {
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.member-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-basic {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--gold);
+}
+
+.badge-standard {
+  background-color: rgba(13, 148, 136, 0.15);
+  color: var(--accent);
+}
+
+.badge-premium {
+  background-color: rgba(139, 92, 246, 0.15);
+  color: var(--purple);
+}
+
+/* ==========================================================================
+   Member Detail
+   ========================================================================== */
+.member-detail {
+  max-width: 680px;
+}
+
+.back-link {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Diet Plans
+   ========================================================================== */
+.diet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.diet-card {
+  cursor: pointer;
+  border: 2px solid transparent;
+  text-align: center;
+}
+
+.diet-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.diet-icon {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.diet-card h3 {
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.diet-card p {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.diet-detail {
+  max-width: 780px;
+}
+
+.meal-section {
+  margin-bottom: 14px;
+}
+
+.meal-section h3 {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--accent);
+  align-items: center;
+  font-size: 1.05rem;
+}
+
+.meal-list {
+  list-style: none;
+  padding: 0;
+}
+
+.meal-list li {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.meal-list li:last-child {
+  border-bottom: none;
+}
+
+/* ==========================================================================
+   Fitness Tracker
+   ========================================================================== */
+.fitness-form {
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+
+.bmi-result {
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius);
+  animation: slideUp 0.4s ease-out;
+}
+
+.bmi-value {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.bmi-category {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.bmi-underweight { color: var(--gold); }
+.bmi-normal { color: #10b981; }
+.bmi-overweight { color: #f97316; }
+.bmi-obese { color: var(--coral); }
+
+.progress-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  font-weight: 500;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: var(--bg-primary);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 50px;
+  transition: width 0.8s ease;
+}
+
+.fitness-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.fitness-tab {
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.fitness-tab:hover {
+  background-color: var(--bg-card);
+}
+
+.fitness-tab.active {
+  background-color: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* ==========================================================================
+   Modal
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: var(--bg-primary);
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.modal-close:hover {
+  background-color: var(--border);
+}
+
+/* ==========================================================================
+   404 Page
+   ========================================================================== */
+.not-found {
+  text-align: center;
+  padding: 60px 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.not-found h1 {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.not-found h2 {
+  font-size: 1.4rem;
+  margin: 12px 0;
+}
+
+.not-found p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state .empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Page Header (reusable)
+   ========================================================================== */
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.page-header p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .navbar {
+    width: 100%;
+    left: 0;
+    padding: 0 14px;
+    gap: 8px;
+  }
+
+  .navbar .brand {
+    display: inline;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 18px 14px;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-bar {
+    width: 140px;
+  }
+
+  .search-bar input {
+    font-size: 0.82rem;
+    padding: 8px 10px 8px 32px;
+  }
+
+  .search-bar .search-icon {
+    left: 10px;
+    font-size: 0.8rem;
+  }
+
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .diet-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-welcome h1 {
+    font-size: 1.3rem;
+  }
+
+  .dashboard-welcome p {
+    font-size: 0.88rem;
+  }
+
+  .attendance-item {
+    padding: 10px 14px;
+  }
+
+  .btn-present,
+  .btn-absent {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .diet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fitness-tabs {
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile overlay when sidebar is open */
+.sidebar-overlay {
+  display: none;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 140;
+}
