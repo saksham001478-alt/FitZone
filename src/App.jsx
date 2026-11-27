@@ -1,64 +1,111 @@
-// App.jsx — Routes and main app state
-import { useState, useCallback } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import {
-  useLocalStorage, Layout, Dashboard, MemberList, MemberDetail,
-  MembershipPlans, AttendanceTracker, DietPlans, FitnessTracker,
-  ProgressChart, NotFound,
-} from './Pages';
+// App.jsx — Routes with role-based layouts and protected routes
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import AdminLayout from './components/AdminLayout';
+import CustomerLayout from './components/CustomerLayout';
+import { Toast } from './components/Toast';
+
+// Auth Pages
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NotFound from './pages/NotFound';
+
+// Admin Pages
+import AdminDashboard from './pages/admin/AdminDashboard';
+import MemberList from './pages/admin/MemberList';
+import MemberDetail from './pages/admin/MemberDetail';
+import MembershipPlans from './pages/admin/MembershipPlans';
+import AttendanceTracker from './pages/admin/AttendanceTracker';
+import AdminDietPlans from './pages/admin/DietPlans';
+import FitnessTracker from './pages/admin/FitnessTracker';
+import ProgressChart from './pages/admin/ProgressChart';
+import ManageShop from './pages/admin/ManageShop';
+import AdminSettings from './pages/admin/AdminSettings';
+
+// Customer Pages
+import CustomerDashboard from './pages/customer/CustomerDashboard';
+import MyProfile from './pages/customer/MyProfile';
+import MyAttendance from './pages/customer/MyAttendance';
+import MyPlan from './pages/customer/MyPlan';
+import CustomerDiet from './pages/customer/CustomerDiet';
+import MyFitness from './pages/customer/MyFitness';
+import Shop from './pages/customer/Shop';
+import Cart from './pages/customer/Cart';
+import Contact from './pages/customer/Contact';
+import CustomerSettings from './pages/customer/CustomerSettings';
+
 import './App.css';
 
+// Redirect root based on auth state
+function RootRedirect() {
+  const { isAuthenticated, role } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (role === 'admin') return <Navigate to="/admin" replace />;
+  return <Navigate to="/app" replace />;
+}
+
 function App() {
-  // dark mode — persisted via custom hook
-  const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
-  // members state — lifted up, drilled down via props
-  const [members, setMembers] = useLocalStorage('members', []); // members state is lifted up to App.jsx and passed down to child components via props.
-  // search
-  const [searchTerm, setSearchTerm] = useState(''); // custom hook for localStorage state management, useLocalStorage, is used to persist dark mode and members state across sessions. The searchTerm state is managed locally within the App component.
-
-  // useCallback for stable references
-  const toggleTheme = useCallback(() => setDarkMode(prev => !prev), [setDarkMode]); // here, useCallback is used to memoize the toggleTheme function, ensuring that it maintains a stable reference across renders, which can help prevent unnecessary re-renders of child components that depend on this function.
-  const handleSearchChange = useCallback((val) => setSearchTerm(val), []); // here handlesearchchange is used to update the searchTerm state when the user types in the search input. It is also memoized with useCallback to maintain a stable reference.
-
-  // apply theme to document
-  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
-
   return (
-    <Routes>
-      <Route path="/" element={<Layout darkMode={darkMode} onToggleTheme={toggleTheme} searchTerm={searchTerm} onSearchChange={handleSearchChange} members={members} setMembers={setMembers} />}>
-        <Route index element={<Dashboard />} />
-        <Route path="members" element={<MemberList />} />
-        <Route path="members/:id" element={<MemberDetail />} />
-        <Route path="membership" element={<MembershipPlans />} />
-        <Route path="attendance" element={<AttendanceTracker />} />
-        <Route path="diet" element={<DietPlans />} />
-        <Route path="diet/:type" element={<DietPlans />} />
-        <Route path="fitness" element={<FitnessTracker />}>
-          <Route path="progress" element={<ProgressChart />} />
+    <>
+      <Toast />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<RootRedirect />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Admin Routes — Protected */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="members" element={<MemberList />} />
+          <Route path="members/:id" element={<MemberDetail />} />
+          <Route path="plans" element={<MembershipPlans />} />
+          <Route path="attendance" element={<AttendanceTracker />} />
+          <Route path="diet" element={<AdminDietPlans />} />
+          <Route path="diet/:type" element={<AdminDietPlans />} />
+          <Route path="fitness" element={<FitnessTracker />}>
+            <Route path="progress" element={<ProgressChart />} />
+          </Route>
+          <Route path="shop" element={<ManageShop />} />
+          <Route path="orders" element={<ManageShop />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
+
+        {/* Customer Routes — Protected */}
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute allowedRole="customer">
+              <CustomerLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<CustomerDashboard />} />
+          <Route path="profile" element={<MyProfile />} />
+          <Route path="attendance" element={<MyAttendance />} />
+          <Route path="plan" element={<MyPlan />} />
+          <Route path="diet" element={<CustomerDiet />} />
+          <Route path="diet/:type" element={<CustomerDiet />} />
+          <Route path="fitness" element={<MyFitness />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="shop/cart" element={<Cart />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="settings" element={<CustomerSettings />} />
+        </Route>
+
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+      </Routes>
+    </>
   );
 }
 
 export default App;
-// main.jsx
-  // ↓
-//BrowserRouter
-//   ↓
-//App.jsx
-//   ↓
-//Global State + Routes
-//   ↓
-//Layout
-//   ↓
-//Navbar + Sidebar + Outlet
-//   ↓
-//Pages
-//   ↓
-//Components
-//   ↓
-//React State
-//   ↓
-//localStorage

@@ -561,7 +561,7 @@ export function DietPlans() {
 
 // ProgressChart — nested route component
 export function ProgressChart() {
-  const { members, fitnessData } = useOutletContext(); //useoutletContext to get members and fitnessData from parent it is a nested route component and this process is called prop drilling.
+  const { members, fitnessData } = useOutletContext();
 
   const progressList = useMemo(() => {
     return members.filter(m => fitnessData[m.id]?.length > 0).map(m => {
@@ -608,9 +608,9 @@ export function FitnessTracker() {
       const records = fitnessData[selectedMember];
       const latest = records[records.length - 1];
       if (latest) { setWeight(latest.weight); setHeight(latest.height); }
-    } else { setWeight(''); setHeight(''); } 
+    } else { setWeight(''); setHeight(''); }
     setBmiResult(null);
-  }, [selectedMember, fitnessData]); // Did selectedMember change? // did fitness data change if yes it automatically finds and record weight
+  }, [selectedMember, fitnessData]);
 
   const calculateBMI = useCallback(() => {
     const w = parseFloat(weight), h = parseFloat(height) / 100;
